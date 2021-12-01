@@ -33,6 +33,7 @@ function Chat(props) {
 
   const send = () => {
     sendMessage(context.username, messageInput.current.value);
+    messageInput.current.value = '';
   };
   return (
     <div className={'chat'}>
