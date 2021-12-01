@@ -5,7 +5,11 @@ export async function login(name) {
     const response = await axios.post('/login/', {
       name,
     });
-    return { status: true, message: response.data.message };
+    return {
+      status: true,
+      message: response.data.message,
+      name: response.data.name,
+    };
   } catch (error) {
     return {
       status: false,

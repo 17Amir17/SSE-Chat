@@ -1,10 +1,13 @@
+import SessionContextProvider from '../Context/SessionContext';
 import Login from './Login';
 
 function App() {
   return (
-    <div>
-      <Login />
-    </div>
+    <SessionContextProvider>
+      <div>
+        <Login />
+      </div>
+    </SessionContextProvider>
   );
 }
 

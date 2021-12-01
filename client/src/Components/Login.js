@@ -1,16 +1,18 @@
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
 import { login } from '../Networking/api';
 import Swal from 'sweetalert2';
 import '../styles/login.css';
+import { SessionContext } from '../Context/SessionContext';
 
 function Login(props) {
   const loginInput = useRef(null);
+  const context = useContext(SessionContext);
 
   const loginClick = async (e) => {
     const loginName = loginInput.current.value;
-    console.log(loginName);
-    const { status, message } = await login(loginName);
+    const { status, message, name } = await login(loginName);
     status ? fireSuccess(message) : fireError(message);
+    if (status) context.setUsername(name);
   };
 
   return (
