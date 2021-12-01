@@ -11,22 +11,22 @@ function onSend(req, res) {
 function broadcast(data) {
   console.log('Broadcast ' + JSON.stringify(data));
   for (const connection in connections) {
-    connections[connection].stream.write(`data: ${JSON.stringify(data)}\n\n`);
+    connections[connection].stream.write(
+      `event: message\ndata: ${JSON.stringify(data)}\n\n`
+    );
   }
 }
 
 async function stream(req, res) {
   console.log(`Streaming for ${req.username}`);
-  res.writeHead(200, {
-    'Content-Type': 'text/event-stream',
-    Connection: 'keep-alive',
-    'Cache-Control': 'no-cache',
-  });
+  res.setHeader('Content-Type', 'text/event-stream');
   try {
     //Add user to connections
     connections[req.username] = { name: req.username, stream: res };
     //Send hello
-    res.write('data: Hello');
+    setInterval(() => {
+      res.write('data: Hello\n\n');
+    }, 2000);
     //When Connection close remove connection
     req.on('close', () => {
       onDisconnect(req.username);
