@@ -5,6 +5,8 @@ const errorCodes = {
   },
   userExists: { message: 'User Already Exists', code: 409 },
   nameRequired: { message: 'Login name required', code: 400 },
+  mustBeLoggedIn: { message: 'Must be logged in', code: 403 },
+  emptyMessage: { message: 'Recieved empty message', code: 400 },
 };
 
 module.exports = errorCodes;

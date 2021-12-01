@@ -1,9 +1,16 @@
 import { useContext } from 'react';
 import { SessionContext } from '../Context/SessionContext';
+import { getStream } from '../Networking/api';
 import '../styles/chat.css';
 
 function Chat(props) {
   const context = useContext(SessionContext);
+  const stream = getStream(context.username);
+
+  stream.onmessage = (message) => {
+    console.log(message);
+  };
+
   return (
     <div className={'chat'}>
       <span style={{ textAlign: 'left', marginBottom: '0.5em' }}>

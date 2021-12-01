@@ -10,7 +10,8 @@ const app = express();
 app.use(cors());
 //Routers
 app.use('/login', express.json(), loginRouter);
-app.use('/message', messageRouter, userRequest);
+app.use('/message', userRequest, messageRouter);
+//Error handler
 app.use(errorHandler);
 
 module.exports = app;
