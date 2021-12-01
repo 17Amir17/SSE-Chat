@@ -9,8 +9,8 @@ const app = express();
 //Middleware
 app.use(cors());
 //Routers
-app.use('/login', loginRouter);
-app.use('/message', messageRouter, userRequest); //
+app.use('/login', express.json(), loginRouter);
+app.use('/message', messageRouter, userRequest);
 app.use(errorHandler);
 
 module.exports = app;

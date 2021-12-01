@@ -2,10 +2,9 @@ const { addUser } = require('../data/db');
 const errorCodes = require('../middleware/errorHandler/errorCodes');
 
 function login(req, res) {
-  const { name } = req.body.name;
-  if (!name) throw errorCodes.nameRequired;
-  if (name.length < 5) throw errorCodes.invalidInput;
-  console.log(`Login request from ${req.body.name}`);
+  const { name } = req.body;
+  if (!name && name != '') throw errorCodes.nameRequired;
+  if (name.length < 3) throw errorCodes.invalidInput;
   addUser(name);
   res.send('User added!');
 }

@@ -1,12 +1,13 @@
 import { useRef } from 'react';
+import { login } from '../Networking/api';
 import '../styles/login.css';
 
 function Login(props) {
   const loginInput = useRef(null);
-
   const loginClick = (e) => {
     const loginName = loginInput.current.value;
     console.log(loginName);
+    login(loginName);
   };
 
   return (
