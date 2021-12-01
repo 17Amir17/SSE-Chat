@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SessionContextProvider from '../Context/SessionContext';
+import Chat from './Chat';
 import Login from './Login';
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={'/'} element={<Login />} />
-          <Route path={'/chat'} element={<div></div>} />
+          <Route path={'/chat'} element={<Chat />} />
         </Routes>
       </BrowserRouter>
     </SessionContextProvider>

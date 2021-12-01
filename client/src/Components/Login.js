@@ -1,4 +1,5 @@
 import { useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../Networking/api';
 import Swal from 'sweetalert2';
 import '../styles/login.css';
@@ -7,12 +8,16 @@ import { SessionContext } from '../Context/SessionContext';
 function Login(props) {
   const loginInput = useRef(null);
   const context = useContext(SessionContext);
+  const nav = useNavigate();
 
   const loginClick = async (e) => {
     const loginName = loginInput.current.value;
     const { status, message, name } = await login(loginName);
     status ? fireSuccess(message) : fireError(message);
-    if (status) context.setUsername(name);
+    if (status) {
+      context.setUsername(name);
+      nav('/chat');
+    }
   };
 
   return (

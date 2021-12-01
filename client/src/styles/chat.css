@@ -1,0 +1,39 @@
+.chat {
+  display: flex;
+  flex-direction: row;
+  padding: 1em;
+  border-style: solid;
+}
+
+.message-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.history {
+  min-height: 50vh;
+  min-width: 50vw;
+  margin: 0 1em 1em 0;
+  overflow-y: scroll;
+  resize: none;
+}
+
+.messagebox {
+  min-height: 5vh;
+  width: 100%;
+  resize: none;
+  overflow-y: scroll;
+}
+
+.send {
+  margin-left: 1em;
+  padding: auto;
+}
+
+.online {
+  display: flex;
+  border-style: solid;
+  margin: 0 0 0 1em;
+  min-width: 2em;
+}
