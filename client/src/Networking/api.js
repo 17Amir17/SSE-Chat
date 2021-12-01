@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 const BASE_URL = 'http://localHost:8080';
+const CHAT_MESSAGE = 'CHAT_MESSAGE';
+const USER_JOINED = 'USER_JOINED';
+const USER_LEFT = 'USER_LEFT';
 let source;
 
 export async function login(name) {
@@ -48,13 +51,24 @@ export async function getStream(user, cb = () => {}) {
   };
 
   source.onmessage = (message) => {
-    console.log(message);
-    cb(message);
+    console.log('MSG\n', message.data);
+    //cb(message);
   };
 
-  source.addEventListener('message', (message) => {
-    console.log('Message!\n', message);
-    cb(message);
+  source.addEventListener(USER_JOINED, (message) => {
+    message = JSON.parse(message.data);
+    console.log(`User ${message.username} joined!`);
+    //cb(message);
+  });
+
+  source.addEventListener(USER_LEFT, (message) => {
+    message = JSON.parse(message.data);
+    console.log(`User ${message.username} left!`);
+  });
+
+  source.addEventListener(CHAT_MESSAGE, (message) => {
+    message = JSON.parse(message.data);
+    console.log(`${message.username}: ${message.message}`);
   });
 
   source.onerror = (error) => {
