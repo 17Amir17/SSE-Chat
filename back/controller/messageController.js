@@ -10,13 +10,16 @@ function onSend(req, res) {
   const { message } = req.body;
   if (!message) throw errorCodes.emptyMessage;
   broadcast({ username: req.username, message });
+  res.status(200).send('sent');
 }
 
-function broadcast(data, eventType = CHAT_MESSAGE) {
+async function broadcast(data, eventType = CHAT_MESSAGE) {
   console.log('Broadcast ' + JSON.stringify(data));
   for (const connection in connections) {
-    const stream = connections[connection].stream;
-    sendEvent(stream, eventType, data);
+    try {
+      const stream = connections[connection].stream;
+      await sendEvent(stream, eventType, data);
+    } catch (error) {}
   }
 }
 
@@ -38,14 +41,14 @@ async function stream(req, res) {
   }
 }
 
-function sendEvent(stream, event, data) {
-  stream.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+async function sendEvent(stream, event, data) {
+  await stream.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
 
-function onDisconnect(username) {
+async function onDisconnect(username) {
   console.log(`${username} Connection closed`);
-  broadcast({ username }, USER_LEFT);
-  connections[username] = undefined;
+  await broadcast({ username }, USER_LEFT);
+  delete connections[username];
 }
 
 module.exports = { onSend, stream };

@@ -19,9 +19,12 @@
 .history {
   min-height: 50vh;
   min-width: 50vw;
+  max-height: 50vh;
   margin: 0 1em 1em 0;
   overflow-y: scroll;
   resize: none;
+  border-style: solid;
+  padding: 0.5em;
 }
 
 .messagebox {

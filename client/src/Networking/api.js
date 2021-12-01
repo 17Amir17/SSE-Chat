@@ -38,7 +38,13 @@ export async function sendMessage(username, message) {
   }
 }
 
-export async function getStream(user, cb = () => {}) {
+const throwaway = () => {};
+export async function getStream(
+  user,
+  onMessage = throwaway,
+  onJoin = throwaway,
+  onLeave = throwaway
+) {
   console.log('Running stream!');
   if (source) {
     console.log('Closing prev stream');
@@ -52,23 +58,22 @@ export async function getStream(user, cb = () => {}) {
 
   source.onmessage = (message) => {
     console.log('MSG\n', message.data);
-    //cb(message);
   };
 
   source.addEventListener(USER_JOINED, (message) => {
     message = JSON.parse(message.data);
-    console.log(`User ${message.username} joined!`);
-    //cb(message);
+    onJoin(message.username);
   });
 
   source.addEventListener(USER_LEFT, (message) => {
     message = JSON.parse(message.data);
     console.log(`User ${message.username} left!`);
+    onLeave(message.username);
   });
 
   source.addEventListener(CHAT_MESSAGE, (message) => {
     message = JSON.parse(message.data);
-    console.log(`${message.username}: ${message.message}`);
+    onMessage(message.username, message.message);
   });
 
   source.onerror = (error) => {
