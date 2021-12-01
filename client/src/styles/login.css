@@ -1,0 +1,19 @@
+.login {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  justify-content: start;
+  padding: 1em 3em 1em 3em;
+  border-style: solid;
+}
+
+.btn-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: end;
+}
+
+.login-elm {
+  margin: 1em;
+}
