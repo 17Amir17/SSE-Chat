@@ -1,9 +1,11 @@
-import { useContext, useRef, useEffect, useState } from 'react';
+import { useContext, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../Context/SessionContext';
 import { getStream, sendMessage } from '../Networking/api';
 import '../styles/chat.css';
 
 function Chat(props) {
+  const nav = useNavigate();
   const context = useContext(SessionContext);
   const messageInput = useRef(null);
 
@@ -21,14 +23,17 @@ function Chat(props) {
     context.requestUsers();
   };
 
+  const onError = () => {
+    nav('/');
+  };
+
   useEffect(() => {
-    getStream(context.username, onMessage, onJoin, onLeave);
+    getStream(context.username, onMessage, onJoin, onLeave, onError);
   }, []);
 
   const send = () => {
     sendMessage(context.username, messageInput.current.value);
   };
-  console.log(context.users);
   return (
     <div className={'chat'}>
       <span style={{ textAlign: 'left', marginBottom: '0.5em' }}>

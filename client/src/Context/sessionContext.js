@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { getUsers } from '../Networking/api';
+import { getHistory, getUsers } from '../Networking/api';
 
 export const SessionContext = createContext('');
 
@@ -16,6 +16,12 @@ function SessionContextProvider(props) {
   const requestUsers = async () => {
     setUsers([...(await getUsers())]);
   };
+
+  useEffect(() => {
+    (async () => {
+      setMessages(await getHistory());
+    })();
+  }, [username]);
 
   return (
     <SessionContext.Provider

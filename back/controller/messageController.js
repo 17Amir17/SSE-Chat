@@ -1,4 +1,4 @@
-const { removeUser, getUsersArr } = require('../data/db');
+const { removeUser, getUsersArr, history } = require('../data/db');
 const errorCodes = require('../middleware/errorHandler/errorCodes');
 
 const CHAT_MESSAGE = 'CHAT_MESSAGE';
@@ -16,6 +16,7 @@ function onSend(req, res) {
 
 async function broadcast(data, eventType = CHAT_MESSAGE) {
   console.log('Broadcast ' + JSON.stringify(data));
+  record(data, eventType);
   for (const connection in connections) {
     try {
       const stream = connections[connection].stream;
@@ -44,10 +45,6 @@ async function stream(req, res) {
   }
 }
 
-function getUsers(req, res) {
-  res.json(getUsersArr());
-}
-
 async function sendEvent(stream, event, data) {
   await stream.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
@@ -64,4 +61,28 @@ async function onDisconnect(username) {
   }
 }
 
-module.exports = { onSend, stream, getUsers };
+function getUsers(req, res) {
+  res.json(getUsersArr());
+}
+
+function getHistory(req, res) {
+  res.json(history);
+}
+
+function record(data, eventType) {
+  switch (eventType) {
+    case USER_JOINED:
+      history.push({
+        username: 'Server',
+        message: `${data.username} joined`,
+      });
+      break;
+    case USER_LEFT:
+      history.push({ username: 'Server', message: `${data.username} left` });
+      break;
+    default:
+      history.push(data);
+      break;
+  }
+}
+module.exports = { onSend, stream, getUsers, getHistory };

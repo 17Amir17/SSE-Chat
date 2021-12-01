@@ -1,7 +1,7 @@
 const errorCodes = require('../middleware/errorHandler/errorCodes');
 
 let users = [];
-let history = [];
+const history = [];
 
 const userExistsByName = (username) => {
   const user = users.find((user) => {

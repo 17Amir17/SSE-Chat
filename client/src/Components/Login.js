@@ -1,6 +1,6 @@
-import { useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../Networking/api';
+import { useRef, useContext, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { closeStream, login } from '../Networking/api';
 import Swal from 'sweetalert2';
 import '../styles/login.css';
 import { SessionContext } from '../Context/SessionContext';
@@ -9,6 +9,13 @@ function Login(props) {
   const loginInput = useRef(null);
   const context = useContext(SessionContext);
   const nav = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log('LOCATION LOCATION');
+    context.setUsername('');
+    closeStream();
+  }, [location]);
 
   const loginClick = async (e) => {
     const loginName = loginInput.current.value;
