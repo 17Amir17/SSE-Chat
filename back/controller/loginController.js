@@ -6,7 +6,7 @@ function login(req, res) {
   if (!name && name != '') throw errorCodes.nameRequired;
   if (name.length < 3) throw errorCodes.invalidInput;
   addUser(name);
-  res.send('User added!');
+  res.json({ message: 'User added!' });
 }
 
 module.exports = { login };

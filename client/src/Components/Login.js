@@ -1,13 +1,16 @@
 import { useRef } from 'react';
 import { login } from '../Networking/api';
+import Swal from 'sweetalert2';
 import '../styles/login.css';
 
 function Login(props) {
   const loginInput = useRef(null);
-  const loginClick = (e) => {
+
+  const loginClick = async (e) => {
     const loginName = loginInput.current.value;
     console.log(loginName);
-    login(loginName);
+    const { status, message } = await login(loginName);
+    status ? fireSuccess(message) : fireError(message);
   };
 
   return (
@@ -28,4 +31,23 @@ function Login(props) {
   );
 }
 
+function fireSuccess(message) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Hooray!',
+    text: message,
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+
+function fireError(message) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops!',
+    text: message,
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
 export default Login;

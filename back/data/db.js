@@ -10,7 +10,7 @@ const userExistsByName = (username) => {
 };
 
 const addUser = (username) => {
-  if (!userExistsByName(username)) throw errorCodes.userExists;
+  if (userExistsByName(username)) throw errorCodes.userExists;
   users.push({ name: username });
 };
 
