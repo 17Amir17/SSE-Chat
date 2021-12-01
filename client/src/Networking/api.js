@@ -56,10 +56,6 @@ export async function getStream(
     console.log('EventStream opened');
   };
 
-  source.onmessage = (message) => {
-    console.log('MSG\n', message.data);
-  };
-
   source.addEventListener(USER_JOINED, (message) => {
     message = JSON.parse(message.data);
     onJoin(message.username);

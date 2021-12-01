@@ -11,9 +11,13 @@ function Chat(props) {
     context.addMessage({ username, message });
   };
 
-  const onLeave = (username) => {};
+  const onLeave = (username) => {
+    context.addMessage({ username: 'Server', message: `${username} left` });
+  };
 
-  const onJoin = (username) => {};
+  const onJoin = (username) => {
+    context.addMessage({ username: 'Server', message: `${username} joined` });
+  };
 
   useEffect(() => {
     getStream(context.username, onMessage, onJoin, onLeave);
