@@ -1,3 +1,4 @@
+const { removeUser, getUsersArr } = require('../data/db');
 const errorCodes = require('../middleware/errorHandler/errorCodes');
 
 const CHAT_MESSAGE = 'CHAT_MESSAGE';
@@ -19,7 +20,9 @@ async function broadcast(data, eventType = CHAT_MESSAGE) {
     try {
       const stream = connections[connection].stream;
       await sendEvent(stream, eventType, data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
@@ -30,7 +33,7 @@ async function stream(req, res) {
     //Add user to connections
     connections[req.username] = { name: req.username, stream: res };
     //Send hello
-    sendEvent(res, USER_JOINED, { username: req.username });
+    broadcast({ username: req.username }, USER_JOINED);
     //When Connection close remove connection
     req.on('close', () => {
       onDisconnect(req.username);
@@ -41,14 +44,24 @@ async function stream(req, res) {
   }
 }
 
+function getUsers(req, res) {
+  res.json(getUsersArr());
+}
+
 async function sendEvent(stream, event, data) {
   await stream.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
 
 async function onDisconnect(username) {
   console.log(`${username} Connection closed`);
-  await broadcast({ username }, USER_LEFT);
-  delete connections[username];
+  try {
+    delete connections[username];
+    removeUser(username);
+    console.log(getUsersArr());
+    await broadcast({ username }, USER_LEFT);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-module.exports = { onSend, stream };
+module.exports = { onSend, stream, getUsers };

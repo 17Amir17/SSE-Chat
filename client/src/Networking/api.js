@@ -32,9 +32,18 @@ export async function sendMessage(username, message) {
         message,
       }
     );
-    console.log(response);
   } catch (error) {
     console.log(error.response);
+  }
+}
+
+export async function getUsers() {
+  try {
+    const res = await axios.get(`${BASE_URL}/message/userList?user=admin`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 }
 

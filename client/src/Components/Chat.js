@@ -13,10 +13,12 @@ function Chat(props) {
 
   const onLeave = (username) => {
     context.addMessage({ username: 'Server', message: `${username} left` });
+    context.requestUsers();
   };
 
   const onJoin = (username) => {
     context.addMessage({ username: 'Server', message: `${username} joined` });
+    context.requestUsers();
   };
 
   useEffect(() => {
@@ -26,8 +28,7 @@ function Chat(props) {
   const send = () => {
     sendMessage(context.username, messageInput.current.value);
   };
-
-  console.log(context.messages);
+  console.log(context.users);
   return (
     <div className={'chat'}>
       <span style={{ textAlign: 'left', marginBottom: '0.5em' }}>
@@ -52,7 +53,11 @@ function Chat(props) {
             </button>
           </div>
         </div>
-        <ul className={'online'}></ul>
+        <ul className={'online'}>
+          {context.users.map((user, i) => {
+            return <li key={i}>{user.name}</li>;
+          })}
+        </ul>
       </div>
     </div>
   );

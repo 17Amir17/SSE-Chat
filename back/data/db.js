@@ -1,7 +1,7 @@
 const errorCodes = require('../middleware/errorHandler/errorCodes');
 
-const users = [];
-const history = [];
+let users = [];
+let history = [];
 
 const userExistsByName = (username) => {
   const user = users.find((user) => {
@@ -16,7 +16,17 @@ const addUser = (username) => {
 };
 
 const removeUser = (username) => {
-  users = users.filter((user) => user.name != username);
+  users = users.filter((user) => user.name !== username);
 };
 
-module.exports = { addUser, removeUser, userExistsByName, users, history };
+const getUsersArr = () => {
+  return users;
+};
+
+module.exports = {
+  addUser,
+  removeUser,
+  userExistsByName,
+  getUsersArr,
+  history,
+};
