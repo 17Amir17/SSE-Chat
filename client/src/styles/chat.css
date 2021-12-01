@@ -1,8 +1,13 @@
 .chat {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 1em;
   border-style: solid;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
 }
 
 .message-area {
