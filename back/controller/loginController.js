@@ -1,4 +1,4 @@
-const { addUser } = require('../data/db');
+const { addUser, users } = require('../data/db');
 const errorCodes = require('../middleware/errorHandler/errorCodes');
 
 function login(req, res) {
@@ -6,6 +6,7 @@ function login(req, res) {
   if (!name && name != '') throw errorCodes.nameRequired;
   if (name.length < 3) throw errorCodes.invalidInput;
   addUser(name);
+  console.log(users);
   res.json({ message: 'User added!', name });
 }
 

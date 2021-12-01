@@ -19,4 +19,4 @@ const removeUser = (username) => {
   users = users.filter((user) => user.name != username);
 };
 
-module.exports = { addUser, removeUser, users, history };
+module.exports = { addUser, removeUser, userExistsByName, users, history };
