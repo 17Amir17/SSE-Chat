@@ -16,7 +16,6 @@ function onSend(req, res) {
 
 async function broadcast(data, eventType = CHAT_MESSAGE) {
   data.time = new Date(); // Give time to date
-  console.log('Broadcast ' + JSON.stringify(data));
   record(data, eventType);
   for (const connection in connections) {
     try {

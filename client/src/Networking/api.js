@@ -65,9 +65,7 @@ export async function getStream(
   onLeave = throwaway,
   onError = throwaway
 ) {
-  console.log('Running stream!');
   if (source[0]) {
-    console.log('Closing prev stream');
     source[0].close();
   } //If stream is up close it
   source[0] = new EventSource(`${BASE_URL}/message/stream?user=${user}`);
