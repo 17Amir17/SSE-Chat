@@ -1,8 +1,14 @@
 .chat {
   display: flex;
   flex-direction: column;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   padding: 1em;
+  margin: 0 1em 1em 0;
+  border-radius: 1em;
   border-style: solid;
+  border-color: darkgray;
 }
 
 .content {
@@ -21,12 +27,20 @@
   min-width: 50vw;
   max-height: 50vh;
   max-width: 50vw;
-  margin: 0 1em 1em 0;
   overflow-y: scroll;
   overflow-wrap: break-word;
   resize: none;
+}
+
+.history-wrapper {
   border-style: solid;
-  padding: 0.5em;
+  border-color: darkgray;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  padding: 1em;
+  margin: 0 1em 1em 0;
+  border-radius: 1em;
 }
 
 .messagebox {
@@ -35,6 +49,9 @@
   width: 100%;
   resize: none;
   overflow-y: scroll;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .send {
@@ -51,10 +68,17 @@
   list-style-type: none;
   flex-direction: column;
   align-items: center;
-  padding: 1em !important;
+  padding: 0em 1em 1em 1em !important;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.online-label {
+  border-bottom-style: solid;
+  border-color: darkgray;
+  margin-bottom: 1em;
+  width: 100%;
 }
 
 .li {
@@ -62,13 +86,46 @@
 }
 
 .time {
-  background-color: lightgray;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: small;
+  color: rgba(0, 0, 0, 0.596);
 }
 
 .msg-sender {
-  background-color: pink;
+  font-weight: bold;
 }
 
 .msg {
-  background-color: lightgoldenrodyellow;
+  margin: 0.25em 0 0.25em 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 90%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 1em;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 1em;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.list-group-item {
+  min-width: 5em;
+  max-width: 5em;
+  margin-bottom: 0.25em;
 }
