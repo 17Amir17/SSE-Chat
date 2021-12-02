@@ -78,18 +78,18 @@ export async function getStream(
 
   source[0].addEventListener(USER_JOINED, (message) => {
     message = JSON.parse(message.data);
-    onJoin(message.username);
+    onJoin(message.username, message.time);
   });
 
   source[0].addEventListener(USER_LEFT, (message) => {
     message = JSON.parse(message.data);
     console.log(`User ${message.username} left!`);
-    onLeave(message.username);
+    onLeave(message.username, message.time);
   });
 
   source[0].addEventListener(CHAT_MESSAGE, (message) => {
     message = JSON.parse(message.data);
-    onMessage(message.username, message.message);
+    onMessage(message.username, message.message, message.time);
   });
 
   source[0].onerror = (error) => {

@@ -9,17 +9,25 @@ function Chat(props) {
   const context = useContext(SessionContext);
   const messageInput = useRef(null);
 
-  const onMessage = (username, message) => {
-    context.addMessage({ username, message });
+  const onMessage = (username, message, time) => {
+    context.addMessage({ username, message, time });
   };
 
-  const onLeave = (username) => {
-    context.addMessage({ username: 'Server', message: `${username} left` });
+  const onLeave = (username, time) => {
+    context.addMessage({
+      username: 'Server',
+      message: `${username} left`,
+      time,
+    });
     context.requestUsers();
   };
 
-  const onJoin = (username) => {
-    context.addMessage({ username: 'Server', message: `${username} joined` });
+  const onJoin = (username, time) => {
+    context.addMessage({
+      username: 'Server',
+      message: `${username} joined`,
+      time,
+    });
     context.requestUsers();
   };
 
@@ -45,8 +53,11 @@ function Chat(props) {
           <div className={'history'}>
             {context.messages.map((message, key) => {
               return (
-                <p className="msg-sender" key={key}>
-                  {message.username}:
+                <p className={'msg'} key={key}>
+                  <span className={'time'}>
+                    {new Date(message.time).toLocaleTimeString()}{' '}
+                  </span>
+                  <span className="msg-sender">{message.username}:</span>
                   <span className={'msg-body'}> {message.message}</span>
                 </p>
               );

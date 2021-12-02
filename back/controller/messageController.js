@@ -15,6 +15,7 @@ function onSend(req, res) {
 }
 
 async function broadcast(data, eventType = CHAT_MESSAGE) {
+  data.time = new Date(); // Give time to date
   console.log('Broadcast ' + JSON.stringify(data));
   record(data, eventType);
   for (const connection in connections) {
@@ -75,10 +76,15 @@ function record(data, eventType) {
       history.push({
         username: 'Server',
         message: `${data.username} joined`,
+        time: data.time,
       });
       break;
     case USER_LEFT:
-      history.push({ username: 'Server', message: `${data.username} left` });
+      history.push({
+        username: 'Server',
+        message: `${data.username} left`,
+        time: data.time,
+      });
       break;
     default:
       history.push(data);
