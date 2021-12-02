@@ -12,8 +12,6 @@ function Login(props) {
   const location = useLocation();
 
   useEffect(() => {
-    console.log('LOCATION LOCATION');
-    context.setUsername('');
     closeStream();
   }, [location]);
 
@@ -23,6 +21,7 @@ function Login(props) {
     status ? fireSuccess(message) : fireError(message);
     if (status) {
       context.setUsername(name);
+      await context.requestHistory();
       nav('/chat');
     }
   };

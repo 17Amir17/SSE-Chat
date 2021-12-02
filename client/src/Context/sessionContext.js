@@ -13,15 +13,18 @@ function SessionContextProvider(props) {
     setMessages([...messages]);
   };
 
+  const clearMessages = () => {
+    setMessages([]);
+  };
+
   const requestUsers = async () => {
     setUsers([...(await getUsers())]);
   };
 
-  useEffect(() => {
-    (async () => {
-      setMessages(await getHistory());
-    })();
-  }, [username]);
+  const requestHistory = async () => {
+    setMessages(await getHistory());
+    console.log('Got history');
+  };
 
   return (
     <SessionContext.Provider
@@ -33,6 +36,8 @@ function SessionContextProvider(props) {
         addMessage,
         users,
         requestUsers,
+        clearMessages,
+        requestHistory,
       }}
     >
       {props.children}
