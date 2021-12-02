@@ -2,6 +2,7 @@ import { useContext, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../Context/SessionContext';
 import { getStream, sendMessage } from '../Networking/api';
+import { Form, Button } from 'react-bootstrap';
 import '../styles/chat.css';
 
 function Chat(props) {
@@ -64,15 +65,25 @@ function Chat(props) {
             })}
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <textarea className={'messagebox'} ref={messageInput}></textarea>
-            <button className={'send'} onClick={send}>
+            <Form.Control
+              as="textarea"
+              placeholder="Write your message here"
+              style={{ height: '100px' }}
+              className={'messagebox'}
+              ref={messageInput}
+            />
+            <Button className={'send'} onClick={send}>
               Send!
-            </button>
+            </Button>
           </div>
         </div>
-        <ul className={'online'}>
+        <ul className={'online list-group'}>
           {context.users.map((user, i) => {
-            return <li key={i}>{user.name}</li>;
+            return (
+              <li className={'list-group-item'} key={i}>
+                {user.name}
+              </li>
+            );
           })}
         </ul>
       </div>
