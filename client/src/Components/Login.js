@@ -4,6 +4,7 @@ import { closeStream, login } from '../Networking/api';
 import Swal from 'sweetalert2';
 import '../styles/login.css';
 import { SessionContext } from '../Context/SessionContext';
+import { Button, InputGroup, FormControl } from 'react-bootstrap';
 
 function Login(props) {
   const loginInput = useRef(null);
@@ -28,17 +29,24 @@ function Login(props) {
 
   return (
     <div className={'login'}>
-      <span className={'login-elm'}>Enter Login:</span>
-      <input
-        type="text"
-        className={'name-input login-elm'}
+      <span className={'title card-title'}>Chat Room!</span>
+      <InputGroup
+        size="lg"
+        id="inputGroup-sizing-sm"
+        className={'mb-3 name-input login-elm'}
         placeholder={'Enter Login Name'}
-        ref={loginInput}
-      ></input>
+      >
+        <InputGroup.Text>Login Name:</InputGroup.Text>
+        <FormControl
+          aria-label="Small"
+          aria-describedby="inputGroup-sizing-sm"
+          ref={loginInput}
+        />
+      </InputGroup>
       <div className={'btn-container login-elm'}>
-        <button id={'login-btn'} onClick={loginClick}>
+        <Button id={'login-btn'} size="lg" onClick={loginClick}>
           Login
-        </button>
+        </Button>
       </div>
     </div>
   );

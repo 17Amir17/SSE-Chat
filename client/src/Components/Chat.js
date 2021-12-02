@@ -2,6 +2,7 @@ import { useContext, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../Context/SessionContext';
 import { getStream, sendMessage } from '../Networking/api';
+import { Form, Button, Card } from 'react-bootstrap';
 import '../styles/chat.css';
 
 function Chat(props) {
@@ -45,34 +46,50 @@ function Chat(props) {
   };
   return (
     <div className={'chat'}>
-      <span style={{ textAlign: 'left', marginBottom: '0.5em' }}>
-        Logged in as {context.username}
-      </span>
+      <Card body style={{ textAlign: 'left', marginBottom: '0.5em' }}>
+        Logged in as{' '}
+        <span style={{ fontWeight: 'bold' }}>{context.username}</span>
+      </Card>
       <div className={'content'}>
         <div className={'message-area'}>
-          <div className={'history'}>
-            {context.messages.map((message, key) => {
-              return (
-                <p className={'msg'} key={key}>
-                  <span className={'time'}>
-                    {new Date(message.time).toLocaleTimeString()}{' '}
-                  </span>
-                  <span className="msg-sender">{message.username}:</span>
-                  <span className={'msg-body'}> {message.message}</span>
-                </p>
-              );
-            })}
+          <div className={'history-wrapper'}>
+            <div className={'history'}>
+              {context.messages.map((message, key) => {
+                return (
+                  <Card className={'msg'} key={key}>
+                    <Card.Body>
+                      <span className="msg-sender">{message.username}:</span>
+                      <span className={'msg-body'}> {message.message}</span>
+                      <span className={'time'}>
+                        {new Date(message.time).toLocaleTimeString()}{' '}
+                      </span>
+                    </Card.Body>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <textarea className={'messagebox'} ref={messageInput}></textarea>
-            <button className={'send'} onClick={send}>
+            <Form.Control
+              as="textarea"
+              placeholder="Write your message here"
+              style={{ height: '100px' }}
+              className={'messagebox'}
+              ref={messageInput}
+            />
+            <Button className={'send'} onClick={send}>
               Send!
-            </button>
+            </Button>
           </div>
         </div>
-        <ul className={'online'}>
+        <ul className={'online list-group'}>
+          <span className={'online-label'}>Online</span>
           {context.users.map((user, i) => {
-            return <li key={i}>{user.name}</li>;
+            return (
+              <li className={'list-group-item'} key={i}>
+                {user.name}
+              </li>
+            );
           })}
         </ul>
       </div>
