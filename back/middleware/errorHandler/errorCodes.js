@@ -1,6 +1,6 @@
 const errorCodes = {
   invalidInput: {
-    message: 'Invalid input - must be atleast 3 characters',
+    message: 'Invalid input - must be atleast 3 characters and less than 7',
     code: 400,
   },
   userExists: { message: 'User Already Exists', code: 409 },
