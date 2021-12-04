@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://eventsourcechat.herokuapp.com/';
+const BASE_URL = 'https://eventsourcechat.herokuapp.com';
 const CHAT_MESSAGE = 'CHAT_MESSAGE';
 const USER_JOINED = 'USER_JOINED';
 const USER_LEFT = 'USER_LEFT';
