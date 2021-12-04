@@ -13,6 +13,11 @@ app.use(express.urlencoded({ extended: false }));
 //Routers
 app.use('/login', loginRouter);
 app.use('/message', userRequest, messageRouter);
+//Static folder and Default Routers
+app.use(express.static(path.join(__dirname, '../client/build/')));
+app.get('', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 //Error handler
 app.use(errorHandler);
 
