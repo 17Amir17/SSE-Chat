@@ -1,5 +1,5 @@
 import express from 'express';
-const { login } = require('../controller/loginController');
+import { login } from '../controller/loginController';
 const router = express.Router();
 
 router.post('', login);

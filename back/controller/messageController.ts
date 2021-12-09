@@ -1,20 +1,30 @@
-const { removeUser, getUsersArr, history } = require('../data/db');
+import { Response } from 'express';
+import {
+  ChatEvent,
+  ConnectionList,
+  Data,
+  UserRequest,
+} from '../services/types';
+
+const { removeUser, getUsersArr, chatHistory } = require('../data/db');
 const errorCodes = require('../middleware/errorHandler/errorCodes');
 
-const CHAT_MESSAGE = 'CHAT_MESSAGE';
 const USER_JOINED = 'USER_JOINED';
 const USER_LEFT = 'USER_LEFT';
 
-const connections = {};
+const connections: ConnectionList = {};
 
-function onSend(req, res) {
+export function onSend(req: UserRequest, res: Response) {
   const { message } = req.body;
   if (!message) throw errorCodes.emptyMessage;
   broadcast({ username: req.username, message });
   res.status(200).send('sent');
 }
 
-async function broadcast(data, eventType = CHAT_MESSAGE) {
+async function broadcast(
+  data: Data,
+  eventType: ChatEvent = ChatEvent.ChatMessage
+) {
   data.time = new Date(); // Give time to date
   record(data, eventType);
   for (const connection in connections) {
@@ -27,14 +37,14 @@ async function broadcast(data, eventType = CHAT_MESSAGE) {
   }
 }
 
-async function stream(req, res) {
+export async function stream(req: UserRequest, res: Response) {
   console.log(`Streaming for ${req.username}`);
   res.setHeader('Content-Type', 'text/event-stream');
   try {
     //Add user to connections
     connections[req.username] = { name: req.username, stream: res };
     //Send hello
-    broadcast({ username: req.username }, USER_JOINED);
+    broadcast({ username: req.username }, ChatEvent.UserJoined);
     //When Connection close remove connection
     req.on('close', () => {
       onDisconnect(req.username);
@@ -45,49 +55,48 @@ async function stream(req, res) {
   }
 }
 
-async function sendEvent(stream, event, data) {
+async function sendEvent(stream: Response, event: ChatEvent, data: Data) {
   await stream.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
 }
 
-async function onDisconnect(username) {
+async function onDisconnect(username: string) {
   console.log(`${username} Connection closed`);
   try {
     delete connections[username];
     removeUser(username);
     console.log(getUsersArr());
-    await broadcast({ username }, USER_LEFT);
+    await broadcast({ username }, ChatEvent.UserLeft);
   } catch (error) {
     console.log(error);
   }
 }
 
-function getUsers(req, res) {
+export function getUsers(_req: UserRequest, res: Response) {
   res.json(getUsersArr());
 }
 
-function getHistory(req, res) {
-  res.json(history);
+export function getHistory(_req: UserRequest, res: Response) {
+  res.json(chatHistory);
 }
 
-function record(data, eventType) {
+export function record(data: Data, eventType: ChatEvent) {
   switch (eventType) {
     case USER_JOINED:
-      history.push({
+      chatHistory.push({
         username: 'Server',
         message: `${data.username} joined`,
         time: data.time,
       });
       break;
     case USER_LEFT:
-      history.push({
+      chatHistory.push({
         username: 'Server',
         message: `${data.username} left`,
         time: data.time,
       });
       break;
     default:
-      history.push(data);
+      chatHistory.push(data);
       break;
   }
 }
-module.exports = { onSend, stream, getUsers, getHistory };

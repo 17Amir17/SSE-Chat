@@ -17,6 +17,11 @@ export function isLoginParams(params: unknown): params is LoginParams {
   return isObject(params) && 'name' in params;
 }
 
+export function isDate(date: unknown): date is Date {
+  const isDate = !!date && isString(date) && isNumber(Date.parse(date));
+  return isDate;
+}
+
 export function validateLoginParams(params: unknown): LoginParams {
   if (!isLoginParams(params) || !isString(params.name)) {
     throw errorCodes.nameRequired;

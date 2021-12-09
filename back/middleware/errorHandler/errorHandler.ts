@@ -1,7 +1,5 @@
 import { ErrorRequestHandler } from 'express';
-import { ErrorCodes } from '../../services/types';
-
-const errorCodes: ErrorCodes = require('./errorCodes');
+import errorCodes from './errorCodes';
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next): void => {
   for (const error in errorCodes) {
@@ -9,10 +7,9 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next): void => {
       res
         .status(errorCodes[error].code)
         .json({ message: errorCodes[error].message });
-      break;
+      return;
     }
   }
-  console.log(err.message);
   res.status(500).send(err.message);
 };
 

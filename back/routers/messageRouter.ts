@@ -1,15 +1,24 @@
 import express from 'express';
-const {
+import {
   onSend,
   stream,
   getUsers,
   getHistory,
-} = require('../controller/messageController');
+} from '../controller/messageController';
+import { UserRequest } from '../services/types';
 const router = express.Router();
 
-router.post('/send', onSend);
-router.get('/stream', stream);
-router.get('/userList', getUsers);
-router.get('/history', getHistory);
+router.post('/send', (req, res) => {
+  onSend(req as UserRequest, res);
+});
+router.get('/stream', (req, res) => {
+  stream(req as UserRequest, res);
+});
+router.get('/userList', (req, res) => {
+  getUsers(req as UserRequest, res);
+});
+router.get('/history', (req, res) => {
+  getHistory(req as UserRequest, res);
+});
 
 export default router;
