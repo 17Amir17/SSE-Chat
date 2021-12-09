@@ -5,12 +5,8 @@ import {
   Data,
   UserRequest,
 } from '../services/types';
-
-const { removeUser, getUsersArr, chatHistory } = require('../data/db');
-const errorCodes = require('../middleware/errorHandler/errorCodes');
-
-const USER_JOINED = 'USER_JOINED';
-const USER_LEFT = 'USER_LEFT';
+import { removeUser, getUsersArr, chatHistory } from '../data/db';
+import errorCodes from '../middleware/errorHandler/errorCodes';
 
 const connections: ConnectionList = {};
 
@@ -81,14 +77,14 @@ export function getHistory(_req: UserRequest, res: Response) {
 
 export function record(data: Data, eventType: ChatEvent) {
   switch (eventType) {
-    case USER_JOINED:
+    case ChatEvent.UserJoined:
       chatHistory.push({
         username: 'Server',
         message: `${data.username} joined`,
         time: data.time,
       });
       break;
-    case USER_LEFT:
+    case ChatEvent.UserLeft:
       chatHistory.push({
         username: 'Server',
         message: `${data.username} left`,

@@ -29,6 +29,10 @@ export interface Connection {
   stream: Response;
 }
 
+export interface User {
+  name: string;
+}
+
 export type ModifiedRequest = Request & { username?: string };
 
 export type UserRequest = Required<ModifiedRequest>;

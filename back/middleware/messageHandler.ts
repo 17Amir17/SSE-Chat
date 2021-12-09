@@ -2,7 +2,7 @@ import { Handler } from 'express';
 import { ModifiedRequest, UserRequest } from '../services/types';
 import { isString } from '../services/utils';
 
-const { userExistsByName } = require('../data/db.js');
+import { userExistsByName } from '../data/db';
 import errorCodes from './errorHandler/errorCodes';
 
 const createUserRequest = (req: ModifiedRequest, user: string): UserRequest => {
