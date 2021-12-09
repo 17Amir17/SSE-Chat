@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const loginRouter = require('./routers/loginRouter');
+import express from 'express';
+import cors from 'cors';
+import loginRouter from './routers/loginRouter';
 const messageRouter = require('./routers/messageRouter');
-const errorHandler = require('./middleware/errorHandler/errorHandler');
+import errorHandler from './middleware/errorHandler/errorHandler';
 const userRequest = require('./middleware/messageHandler');
 const app = express();
 

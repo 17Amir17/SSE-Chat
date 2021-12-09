@@ -15,4 +15,4 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next): void => {
   res.status(500).send(err.message);
 };
 
-module.exports = errorHandler;
+export default errorHandler;
