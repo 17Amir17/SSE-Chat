@@ -10,3 +10,7 @@ export interface ErrorCode {
 }
 
 export type ModifiedRequest = Request & { username?: string };
+
+export interface LoginParams {
+  name: string;
+}

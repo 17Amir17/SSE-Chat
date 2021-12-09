@@ -12,6 +12,7 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next): void => {
       break;
     }
   }
+  console.log(err.message);
   res.status(500).send(err.message);
 };
 

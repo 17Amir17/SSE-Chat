@@ -12,4 +12,4 @@ const errorCodes: ErrorCodes = {
   userNotFound: { message: 'User not found', code: 404 },
 };
 
-module.exports = errorCodes;
+export default errorCodes;
