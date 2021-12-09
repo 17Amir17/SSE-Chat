@@ -13,5 +13,4 @@ const userRequest: Handler = (req: ModifiedRequest, _res, next) => {
   req.username = user;
   next();
 };
-
-module.exports = userRequest;
+export default userRequest;

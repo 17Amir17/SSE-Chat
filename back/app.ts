@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import loginRouter from './routers/loginRouter';
-const messageRouter = require('./routers/messageRouter');
+import messageRouter from './routers/messageRouter';
 import errorHandler from './middleware/errorHandler/errorHandler';
-const userRequest = require('./middleware/messageHandler');
+import userRequest from './middleware/messageHandler';
+
 const app = express();
 
 //Middleware

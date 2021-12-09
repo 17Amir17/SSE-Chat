@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const {
   onSend,
   stream,
@@ -12,4 +12,4 @@ router.get('/stream', stream);
 router.get('/userList', getUsers);
 router.get('/history', getHistory);
 
-module.exports = router;
+export default router;
