@@ -1,5 +1,4 @@
 import { removeRefreshToken } from '../auth_tools/auth_tools';
-import { getUsersArr } from '../data/db';
 import {
   ChatEvent,
   TypingData,
@@ -24,7 +23,7 @@ export async function onDisconnect(event: UserConnectionEvent) {
   console.log(`${username} Connection closed`);
   try {
     removeUserAndConnection(username);
-    removeUserFromTyping(username, userStopTyping);
+    removeUserFromTyping(username, userStopTyping); //Tell front you have stopped typing
     removeRefreshToken({ username });
     await broadcast({ username }, ChatEvent.UserLeft);
   } catch (error) {
@@ -34,6 +33,7 @@ export async function onDisconnect(event: UserConnectionEvent) {
 
 export async function onUserSendMessage(event: UserSendMessageEvent) {
   broadcast({ username: event.username, message: event.message });
+  removeUserFromTyping(event.username, userStopTyping); //Tell front you have stopped typing
 }
 
 export async function onUserTyping(event: UserTypingEvent) {
