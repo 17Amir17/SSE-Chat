@@ -18,6 +18,7 @@ const createUserRequest = (
 
 const userRequest: Handler = (req: ModifiedRequest, _res, next) => {
   const accessToken = req.headers.authorization;
+  console.log(accessToken);
   if (!accessToken) throw errorCodes.noAcessToken;
   // Verify access token
   const user: NonSensativeUser = validateNonSensativeUser(

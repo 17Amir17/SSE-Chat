@@ -18,7 +18,7 @@ export function compare(hash: string, password: string | Buffer) {
 }
 
 export function generateAccessToken(data: JWTPayload) {
-  return generateToken(data, '10s');
+  return generateToken(data, '10h');
 }
 
 export function generateRefreshToken(data: JWTPayload) {

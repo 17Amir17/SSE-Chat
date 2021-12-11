@@ -1,33 +1,52 @@
 import axios from 'axios';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const BASE_URL = 'http://localHost:8080';
 const CHAT_MESSAGE = 'CHAT_MESSAGE';
 const USER_JOINED = 'USER_JOINED';
 const USER_LEFT = 'USER_LEFT';
 const USER_TYPING = 'USER_TYPING';
-let source = [];
+let source;
 
-export async function sendMessage(username, message) {
+export async function sendMessage(message, accessToken) {
   try {
-    await axios.post(`${BASE_URL}/message/send?user=${username}`, {
-      message,
+    console.log(accessToken);
+    await axios.post(
+      `${BASE_URL}/message/send`,
+      {
+        message,
+      },
+      {
+        headers: {
+          Authorization: accessToken,
+        },
+      }
+    );
+  } catch (error) {
+    console.log(error.response);
+  }
+}
+
+export async function sendTyping(accessToken) {
+  try {
+    console.log(accessToken);
+    await axios.post(`${BASE_URL}/message/typing`, null, {
+      headers: {
+        Authorization: accessToken,
+      },
     });
   } catch (error) {
     console.log(error.response);
   }
 }
 
-export async function sendTyping(username) {
+export async function getUsers(accessToken) {
   try {
-    await axios.post(`${BASE_URL}/message/typing?user=${username}`);
-  } catch (error) {
-    console.log(error.response);
-  }
-}
-
-export async function getUsers() {
-  try {
-    const res = await axios.get(`${BASE_URL}/message/userList?user=admin`);
+    const res = await axios.get(`${BASE_URL}/message/userList?user=admin`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
     return res.data;
   } catch (error) {
     console.log(error);
@@ -35,9 +54,13 @@ export async function getUsers() {
   }
 }
 
-export async function getHistory() {
+export async function getHistory(accessToken) {
   try {
-    const res = await axios.get(`${BASE_URL}/message/history?user=admin`);
+    const res = await axios.get(`${BASE_URL}/message/history`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
     return res.data;
   } catch (error) {
     console.log(error);
@@ -47,59 +70,64 @@ export async function getHistory() {
 
 const throwaway = () => {};
 export async function getStream(
-  user,
+  accessToken,
   onMessage = throwaway,
   onJoin = throwaway,
   onLeave = throwaway,
   onTyping = throwaway,
   onError = throwaway
 ) {
-  if (source[0]) {
-    source[0].close();
+  console.log(accessToken);
+  if (source) {
+    source.close();
   } //If stream is up close it
-  source[0] = new EventSource(`${BASE_URL}/message/stream?user=${user}`);
+  source = new EventSourcePolyfill(`${BASE_URL}/message/stream`, {
+    headers: {
+      Authorization: accessToken,
+    },
+  });
 
-  source[0].onopen = () => {
+  source.onopen = () => {
     console.log('EventStream opened');
   };
 
-  source[0].addEventListener(USER_JOINED, (message) => {
+  source.addEventListener(USER_JOINED, (message) => {
     message = JSON.parse(message.data);
     onJoin(message.username, message.time);
   });
 
-  source[0].addEventListener(USER_LEFT, (message) => {
+  source.addEventListener(USER_LEFT, (message) => {
     message = JSON.parse(message.data);
     console.log(`User ${message.username} left!`);
     onLeave(message.username, message.time);
   });
 
-  source[0].addEventListener(CHAT_MESSAGE, (message) => {
+  source.addEventListener(CHAT_MESSAGE, (message) => {
     message = JSON.parse(message.data);
     onMessage(message.username, message.message, message.time);
   });
 
-  source[0].addEventListener(USER_TYPING, (message) => {
+  source.addEventListener(USER_TYPING, (message) => {
     const typing = JSON.parse(message.data).typing;
     onTyping(typing);
   });
 
-  source[0].onerror = (error) => {
+  source.onerror = (error) => {
     console.log('Error\n', error);
-    source[0].close();
+    source.close();
     onError();
   };
 
   return () => {
-    source[0].close();
+    source.close();
   };
 }
 
 export function closeStream() {
-  console.log(source[0]);
-  if (source[0]) {
-    source[0].close();
-    source[0] = undefined;
+  console.log(source);
+  if (source) {
+    source.close();
+    source = undefined;
     console.log('Closed');
   }
 }

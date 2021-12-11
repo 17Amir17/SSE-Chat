@@ -26,11 +26,11 @@ function SessionContextProvider(props) {
   };
 
   const requestUsers = async () => {
-    setUsers([...(await getUsers())]);
+    setUsers([...(await getUsers(accessToken))]);
   };
 
-  const requestHistory = async () => {
-    setMessages(await getHistory());
+  const requestHistory = async (token) => {
+    setMessages(await getHistory(token));
     console.log('Got history');
   };
 
@@ -46,6 +46,8 @@ function SessionContextProvider(props) {
         requestUsers,
         clearMessages,
         requestHistory,
+        accessToken,
+        refreshToken,
       }}
     >
       {props.children}

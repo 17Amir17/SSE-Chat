@@ -26,7 +26,7 @@ function Login(props) {
     status ? fireSuccess(message) : fireError(message);
     if (status) {
       context.setInitial(username, accessToken, refreshToken);
-      await context.requestHistory();
+      await context.requestHistory(accessToken);
       nav('/chat');
     }
   };

@@ -43,19 +43,26 @@ function Chat(props) {
   };
 
   useEffect(() => {
-    getStream(context.username, onMessage, onJoin, onLeave, onTyping, onError);
+    getStream(
+      context.accessToken,
+      onMessage,
+      onJoin,
+      onLeave,
+      onTyping,
+      onError
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const send = () => {
-    sendMessage(context.username, messageInput.current.value);
+    sendMessage(messageInput.current.value, context.accessToken);
     messageInput.current.value = '';
   };
 
   const onChange = () => {
     const now = new Date().getTime();
     if (now - lastTyped > 500) {
-      sendTyping(context.username);
+      sendTyping(context.accessToken);
       lastTyped = now;
     }
   };
