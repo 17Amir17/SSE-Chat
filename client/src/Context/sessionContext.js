@@ -16,6 +16,11 @@ function SessionContextProvider(props) {
     setRefreshToken(refreshToken);
   };
 
+  const clearSession = () => {
+    setUsername(undefined);
+    setAccessToken(undefined);
+  };
+
   const addMessage = (message) => {
     messages.push(message);
     setMessages([...messages]);
@@ -48,6 +53,7 @@ function SessionContextProvider(props) {
         requestHistory,
         accessToken,
         refreshToken,
+        clearSession,
       }}
     >
       {props.children}

@@ -16,6 +16,7 @@ function Login(props) {
 
   useEffect(() => {
     closeStream();
+    context.clearSession();
   }, [location]);
 
   const loginClick = async (e) => {
