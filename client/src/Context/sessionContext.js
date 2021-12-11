@@ -5,8 +5,16 @@ export const SessionContext = createContext('');
 
 function SessionContextProvider(props) {
   const [username, setUsername] = useState();
+  const [accessToken, setAccessToken] = useState();
+  const [refreshToken, setRefreshToken] = useState();
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+
+  const setInitial = (username, accessToken, refreshToken) => {
+    setUsername(username);
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
+  };
 
   const addMessage = (message) => {
     messages.push(message);
@@ -30,7 +38,7 @@ function SessionContextProvider(props) {
     <SessionContext.Provider
       value={{
         username,
-        setUsername,
+        setInitial,
         messages,
         setMessages,
         addMessage,

@@ -7,24 +7,6 @@ const USER_LEFT = 'USER_LEFT';
 const USER_TYPING = 'USER_TYPING';
 let source = [];
 
-export async function login(name) {
-  try {
-    const response = await axios.post(`${BASE_URL}/login/`, {
-      name,
-    });
-    return {
-      status: true,
-      message: response.data.message,
-      name: response.data.name,
-    };
-  } catch (error) {
-    return {
-      status: false,
-      message: error.response.data.message || 'something went wrong :(',
-    };
-  }
-}
-
 export async function sendMessage(username, message) {
   try {
     await axios.post(`${BASE_URL}/message/send?user=${username}`, {
