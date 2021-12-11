@@ -7,7 +7,11 @@ import {
   UserTypingEvent,
 } from '../services/types';
 import { broadcast, removeUserAndConnection } from './chatController';
-import { getTypingList, userIsTyping } from './typingController';
+import {
+  getTypingList,
+  removeUserFromTyping,
+  userIsTyping,
+} from './typingController';
 
 export async function onConnect(event: UserConnectionEvent) {
   //Send hello
@@ -19,6 +23,7 @@ export async function onDisconnect(event: UserConnectionEvent) {
   console.log(`${username} Connection closed`);
   try {
     removeUserAndConnection(username);
+    removeUserFromTyping(username, userStopTyping);
     console.log(getUsersArr());
     await broadcast({ username }, ChatEvent.UserLeft);
   } catch (error) {

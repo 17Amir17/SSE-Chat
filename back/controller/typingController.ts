@@ -1,6 +1,6 @@
 import { TypingUser } from '../services/types';
 
-const timeForTyping = 10000; //Miliseconds
+const timeForTyping = 2000; //Miliseconds
 const currentlyTyping: TypingUser = {};
 
 export function userIsTyping(name: string, cb: () => void) {
@@ -14,9 +14,13 @@ export function userIsTyping(name: string, cb: () => void) {
 function checkIfTyping(name: string, cb: () => void) {
   const timePassed = new Date().getTime() - currentlyTyping[name];
   if (timePassed > timeForTyping) {
-    delete currentlyTyping[name];
-    cb();
+    removeUserFromTyping(name, cb);
   }
+}
+
+export function removeUserFromTyping(name: string, cb: () => void) {
+  delete currentlyTyping[name];
+  cb();
 }
 
 export function getTypingList(): string[] {
