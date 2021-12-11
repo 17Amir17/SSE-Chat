@@ -6,7 +6,6 @@ import { validateRegistrationParams } from '../services/utils';
 
 export function register(req: Request, res: Response) {
   // Get and validate params
-  console.log('Validating Params');
   const regParams: RegistrationParams = validateRegistrationParams(req.body);
   // Check if username exists
   if (userExistsByName(regParams.username)) throw errorCodes.userExists;

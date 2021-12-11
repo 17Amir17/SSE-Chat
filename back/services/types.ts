@@ -11,9 +11,7 @@ export interface RegistrationParams {
   username: string;
   password: string;
 }
-export interface LoginParams {
-  name: string;
-}
+export interface LoginParams extends RegistrationParams {}
 export interface Data {
   date?: string;
   username?: string;
@@ -47,8 +45,10 @@ export interface UserConnectionEvent extends UserEvent {}
 export interface UserSendMessageEvent extends UserEvent {
   message: string;
 }
-
 export interface UserTypingEvent extends UserEvent {}
+export interface ValidTokens {
+  [key: string]: string;
+}
 export type ModifiedRequest = Request & { username?: string };
 export type UserRequest = Required<ModifiedRequest>;
 export type JWTPayload = string | Buffer | object;

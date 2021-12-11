@@ -30,6 +30,14 @@ export const removeUser = (username: string) => {
   onlineUsers = onlineUsers.filter((user) => user.username !== username);
 };
 
+export const getUser = (username: string): User => {
+  const user: User | undefined = users.find(
+    (user) => user.username === username
+  );
+  if (!user) throw errorCodes.userNotFound;
+  return user;
+};
+
 export const getUsersArr = () => {
   return onlineUsers;
 };

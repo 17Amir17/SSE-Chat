@@ -1,10 +1,12 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
-const SECRET: string = process.env.SECRET || 'secret';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { JWTPayload } from '../services/types';
+import { JWTPayload, ValidTokens } from '../services/types';
+
+const SECRET: string = process.env.SECRET || 'secret';
+
+const validRefreshTokens: ValidTokens = {};
 
 export function encrypt(password: string) {
   const salt = bcrypt.genSaltSync(10);
@@ -20,7 +22,9 @@ export function generateAccessToken(data: JWTPayload) {
 }
 
 export function generateRefreshToken(data: JWTPayload) {
-  return generateToken(data, '1h');
+  const token = generateToken(data, '1h');
+  validRefreshTokens[token] = '';
+  return token;
 }
 
 export function generateToken(data: JWTPayload, exp: string) {
