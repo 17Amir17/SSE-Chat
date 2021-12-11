@@ -57,6 +57,8 @@ export type ModifiedRequest = Request & { username?: string };
 
 export type UserRequest = Required<ModifiedRequest>;
 
+export type JWTPayload = string | Buffer | object;
+
 export enum ChatEvent {
   ChatMessage = 'CHAT_MESSAGE',
   UserJoined = 'USER_JOINED',
