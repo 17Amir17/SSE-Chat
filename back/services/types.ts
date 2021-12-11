@@ -32,7 +32,7 @@ export interface User {
   username: string;
   password: string;
 }
-export interface NonSensativeUsers {
+export interface NonSensativeUser {
   username: string;
 }
 export interface TypingUser {

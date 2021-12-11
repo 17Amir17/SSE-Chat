@@ -6,7 +6,7 @@ import {
 } from '../auth_tools/auth_tools';
 import { getUser, userOnline } from '../data/db';
 import errorCodes from '../middleware/errorHandler/errorCodes';
-import { LoginParams, NonSensativeUsers, User } from '../services/types';
+import { LoginParams, NonSensativeUser, User } from '../services/types';
 import { validateLoginParams } from '../services/utils';
 
 export const login: RequestHandler = (req, res) => {
@@ -19,7 +19,7 @@ export const login: RequestHandler = (req, res) => {
   // Check if user is not online
   if (userOnline(user.username)) throw errorCodes.userIsAlreadyOnline;
   // Generate tokens
-  const safeUser: NonSensativeUsers = { username: user.username };
+  const safeUser: NonSensativeUser = { username: user.username };
   const accessToken = generateAccessToken(safeUser);
   const refreshToken = generateRefreshToken(safeUser);
   res.json({ accessToken, refreshToken });

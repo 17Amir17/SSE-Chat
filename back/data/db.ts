@@ -2,13 +2,13 @@ import { encrypt } from '../auth_tools/auth_tools';
 import errorCodes from '../middleware/errorHandler/errorCodes';
 import {
   Data,
-  NonSensativeUsers,
+  NonSensativeUser,
   RegistrationParams,
   User,
 } from '../services/types';
 
 export const users: User[] = [];
-let onlineUsers: NonSensativeUsers[] = [];
+let onlineUsers: NonSensativeUser[] = [];
 export const chatHistory: Data[] = [];
 
 export const userExistsByName = (username: string) => {

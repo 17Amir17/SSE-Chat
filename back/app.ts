@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import authRouter from './routers/authRouter';
 import messageRouter from './routers/messageRouter';
 import errorHandler from './middleware/errorHandler/errorHandler';
-import userRequest from './middleware/messageHandler';
+import userRequest from './middleware/auth';
 
 const app = express();
 

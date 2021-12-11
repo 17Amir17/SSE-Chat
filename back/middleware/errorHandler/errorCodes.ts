@@ -20,6 +20,9 @@ const errorCodes: ErrorCodes = {
   userNotFound: { message: 'User not found', code: 404 },
   incorrectPassword: { message: 'Incorrect Password', code: 403 },
   userIsAlreadyOnline: { message: 'User is already logged in', code: 403 },
+  noAcessToken: { message: 'Access Token Required', code: 403 },
+  noRefreshToken: { message: 'Refresh Token Required', code: 403 },
+  badToken: { message: 'Token is either bad or expired', code: 403 },
 };
 
 export default errorCodes;

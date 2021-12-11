@@ -1,5 +1,5 @@
 import errorCodes from '../middleware/errorHandler/errorCodes';
-import { LoginParams, RegistrationParams } from './types';
+import { LoginParams, NonSensativeUser, RegistrationParams } from './types';
 
 export function isNumber(num: unknown): num is number {
   return typeof num === 'number' && !isNaN(num);
@@ -28,6 +28,10 @@ export function isDate(date: unknown): date is Date {
   return isDate;
 }
 
+export function isNoneSensativeUser(user: unknown): user is NonSensativeUser {
+  return isObject(user) && 'username' in user;
+}
+
 export function validateLoginParams(params: unknown): LoginParams {
   if (!isLoginParams(params) || !isString(params.username)) {
     throw errorCodes.nameRequired;
@@ -51,4 +55,9 @@ export function validateRegistrationParams(
   } else if (saved_names.indexOf(params.username) != -1)
     throw errorCodes.userExists;
   return params;
+}
+
+export function validateNonSensativeUser(user: unknown) {
+  if (!isNoneSensativeUser(user)) throw errorCodes.badToken;
+  return user;
 }
