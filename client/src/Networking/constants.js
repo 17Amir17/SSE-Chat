@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://localHost:8080';
+export const BASE_URL = 'https://sse-chat.amirangel.repl.co';
