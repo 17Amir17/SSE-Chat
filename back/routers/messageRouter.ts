@@ -4,7 +4,7 @@ import {
   stream,
   getUsers,
   getHistory,
-} from '../controller/messageController';
+} from '../controller/chatController';
 import { UserRequest } from '../services/types';
 const router = express.Router();
 

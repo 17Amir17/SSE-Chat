@@ -33,6 +33,15 @@ export interface User {
   name: string;
 }
 
+export interface UserConnectionEvent {
+  username: string;
+}
+
+export interface UserSendMessageEvent {
+  username: string;
+  message: string;
+}
+
 export type ModifiedRequest = Request & { username?: string };
 
 export type UserRequest = Required<ModifiedRequest>;
