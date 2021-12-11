@@ -8,7 +8,7 @@ export function userIsTyping(name: string, cb: () => void) {
   setTimeout(() => {
     //Check if still typing in x seconds
     checkIfTyping(name, cb);
-  }, timeForTyping);
+  }, timeForTyping + 10); // The + 10 gives extra time for the later if statement
 }
 
 function checkIfTyping(name: string, cb: () => void) {
