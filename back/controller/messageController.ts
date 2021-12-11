@@ -1,10 +1,10 @@
-import { removeUser, getUsersArr } from '../data/db';
+import { getUsersArr } from '../data/db';
 import {
   ChatEvent,
   UserConnectionEvent,
   UserSendMessageEvent,
 } from '../services/types';
-import { broadcast, connections } from './chatController';
+import { broadcast, removeUserAndConnection } from './chatController';
 
 export async function onConnect(event: UserConnectionEvent) {
   //Send hello
@@ -15,8 +15,7 @@ export async function onDisconnect(event: UserConnectionEvent) {
   const username = event.username;
   console.log(`${username} Connection closed`);
   try {
-    delete connections[username];
-    removeUser(username);
+    removeUserAndConnection(username);
     console.log(getUsersArr());
     await broadcast({ username }, ChatEvent.UserLeft);
   } catch (error) {

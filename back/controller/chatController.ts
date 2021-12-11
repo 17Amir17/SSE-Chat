@@ -7,7 +7,7 @@ import {
   UserConnectionEvent,
   UserSendMessageEvent,
 } from '../services/types';
-import { getUsersArr, chatHistory } from '../data/db';
+import { getUsersArr, chatHistory, removeUser } from '../data/db';
 import errorCodes from '../middleware/errorHandler/errorCodes';
 import TypedEvent from '../services/TypedEvent';
 import {
@@ -77,4 +77,13 @@ export async function broadcast(
 
 async function sendEvent(stream: Response, event: ChatEvent, data: Data) {
   await stream.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+}
+
+export function removeUserAndConnection(username: string) {
+  try {
+    delete connections[username];
+    removeUser(username);
+  } catch (error) {
+    console.log(error);
+  }
 }
