@@ -1,12 +1,13 @@
 import { getUsersArr } from '../data/db';
 import {
   ChatEvent,
+  TypingData,
   UserConnectionEvent,
   UserSendMessageEvent,
   UserTypingEvent,
 } from '../services/types';
 import { broadcast, removeUserAndConnection } from './chatController';
-import { userIsTyping } from './typingController';
+import { getTypingList, userIsTyping } from './typingController';
 
 export async function onConnect(event: UserConnectionEvent) {
   //Send hello
@@ -30,5 +31,12 @@ export async function onUserSendMessage(event: UserSendMessageEvent) {
 }
 
 export async function onUserTyping(event: UserTypingEvent) {
-  userIsTyping(event.username);
+  userIsTyping(event.username, userStopTyping);
+  const data: TypingData = { typing: getTypingList() };
+  broadcast(data, ChatEvent.UserTyping);
+}
+
+export function userStopTyping() {
+  const data: TypingData = { typing: getTypingList() };
+  broadcast(data, ChatEvent.UserTyping);
 }

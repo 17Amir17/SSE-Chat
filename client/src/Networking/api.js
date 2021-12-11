@@ -4,6 +4,7 @@ const BASE_URL = 'http://localHost:8080';
 const CHAT_MESSAGE = 'CHAT_MESSAGE';
 const USER_JOINED = 'USER_JOINED';
 const USER_LEFT = 'USER_LEFT';
+const USER_TYPING = 'USER_TYPING';
 let source = [];
 
 export async function login(name) {
@@ -26,12 +27,17 @@ export async function login(name) {
 
 export async function sendMessage(username, message) {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/message/send?user=${username}`,
-      {
-        message,
-      }
-    );
+    await axios.post(`${BASE_URL}/message/send?user=${username}`, {
+      message,
+    });
+  } catch (error) {
+    console.log(error.response);
+  }
+}
+
+export async function sendTyping(username) {
+  try {
+    await axios.post(`${BASE_URL}/message/typing?user=${username}`);
   } catch (error) {
     console.log(error.response);
   }
@@ -63,6 +69,7 @@ export async function getStream(
   onMessage = throwaway,
   onJoin = throwaway,
   onLeave = throwaway,
+  onTyping = throwaway,
   onError = throwaway
 ) {
   if (source[0]) {
@@ -88,6 +95,11 @@ export async function getStream(
   source[0].addEventListener(CHAT_MESSAGE, (message) => {
     message = JSON.parse(message.data);
     onMessage(message.username, message.message, message.time);
+  });
+
+  source[0].addEventListener(USER_TYPING, (message) => {
+    const typing = JSON.parse(message.data).typing;
+    onTyping(typing);
   });
 
   source[0].onerror = (error) => {

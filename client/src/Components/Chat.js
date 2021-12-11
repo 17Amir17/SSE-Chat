@@ -1,7 +1,7 @@
-import { useContext, useRef, useEffect } from 'react';
+import { useContext, useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SessionContext } from '../Context/SessionContext';
-import { getStream, sendMessage } from '../Networking/api';
+import { getStream, sendMessage, sendTyping } from '../Networking/api';
 import { Form, Button, Card } from 'react-bootstrap';
 import '../styles/chat.css';
 
@@ -9,6 +9,8 @@ function Chat(props) {
   const nav = useNavigate();
   const context = useContext(SessionContext);
   const messageInput = useRef(null);
+  const [typing, setTyping] = useState([]);
+  let lastTyped = new Date().getTime();
 
   const onMessage = (username, message, time) => {
     context.addMessage({ username, message, time });
@@ -32,18 +34,32 @@ function Chat(props) {
     context.requestUsers();
   };
 
+  const onTyping = (typing) => {
+    setTyping(typing);
+  };
+
   const onError = () => {
     nav('/');
   };
 
   useEffect(() => {
-    getStream(context.username, onMessage, onJoin, onLeave, onError);
+    getStream(context.username, onMessage, onJoin, onLeave, onTyping, onError);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const send = () => {
     sendMessage(context.username, messageInput.current.value);
     messageInput.current.value = '';
   };
+
+  const onChange = () => {
+    const now = new Date().getTime();
+    if (now - lastTyped > 500) {
+      sendTyping(context.username);
+      lastTyped = now;
+    }
+  };
+
   return (
     <div className={'chat'}>
       <Card body style={{ textAlign: 'left', marginBottom: '0.5em' }}>
@@ -68,6 +84,11 @@ function Chat(props) {
                 );
               })}
             </div>
+            <span>
+              {typing.length === 0
+                ? ''
+                : 'Currently Typing: ' + typing.map((user) => `${user} `)}
+            </span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Form.Control
@@ -76,6 +97,7 @@ function Chat(props) {
               style={{ height: '100px' }}
               className={'messagebox'}
               ref={messageInput}
+              onChange={onChange}
             />
             <Button className={'send'} onClick={send}>
               Send!

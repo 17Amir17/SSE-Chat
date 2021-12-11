@@ -63,6 +63,11 @@ export function getHistory(_req: UserRequest, res: Response) {
   res.json(chatHistory);
 }
 
+export function userTyping(req: UserRequest, res: Response) {
+  onUserTypingEvent.emit({ username: req.username });
+  res.json();
+}
+
 export async function broadcast(
   data: Data,
   eventType: ChatEvent = ChatEvent.ChatMessage

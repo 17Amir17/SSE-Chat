@@ -20,6 +20,10 @@ export interface Data {
   time?: Date;
 }
 
+export interface TypingData extends Data {
+  typing: string[];
+}
+
 export interface ConnectionList {
   [key: string]: Connection;
 }

@@ -4,6 +4,7 @@ import {
   stream,
   getUsers,
   getHistory,
+  userTyping,
 } from '../controller/chatController';
 import { UserRequest } from '../services/types';
 const router = express.Router();
@@ -19,6 +20,9 @@ router.get('/userList', (req, res) => {
 });
 router.get('/history', (req, res) => {
   getHistory(req as UserRequest, res);
+});
+router.post('/typing', (req, res) => {
+  userTyping(req as UserRequest, res);
 });
 
 export default router;
