@@ -19,6 +19,7 @@ function SessionContextProvider(props) {
   const clearSession = () => {
     setUsername(undefined);
     setAccessToken(undefined);
+    setRefreshToken(undefined);
   };
 
   const addMessage = (message) => {

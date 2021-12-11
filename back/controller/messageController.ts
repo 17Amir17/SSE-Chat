@@ -1,3 +1,4 @@
+import { removeRefreshToken } from '../auth_tools/auth_tools';
 import { getUsersArr } from '../data/db';
 import {
   ChatEvent,
@@ -24,7 +25,7 @@ export async function onDisconnect(event: UserConnectionEvent) {
   try {
     removeUserAndConnection(username);
     removeUserFromTyping(username, userStopTyping);
-    console.log(getUsersArr());
+    removeRefreshToken({ username });
     await broadcast({ username }, ChatEvent.UserLeft);
   } catch (error) {
     console.log(error);

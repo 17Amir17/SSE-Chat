@@ -23,7 +23,7 @@ export function generateAccessToken(data: JWTPayload) {
 
 export function generateRefreshToken(data: JWTPayload) {
   const token = generateToken(data, '1h');
-  validRefreshTokens[token] = '.';
+  validRefreshTokens[token] = data;
   return token;
 }
 
@@ -41,9 +41,14 @@ export function validateToken(accessKey: string) {
   }
 }
 
-export function removeRefreshToken(token: string) {
+export function removeRefreshToken(data: JWTPayload) {
   try {
-    delete validRefreshTokens[token];
+    for (const token in validRefreshTokens) {
+      if (validRefreshTokens[token] === data) {
+        delete validRefreshTokens[token];
+        return;
+      }
+    }
   } catch (error) {}
 }
 

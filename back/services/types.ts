@@ -47,7 +47,7 @@ export interface UserSendMessageEvent extends UserEvent {
 }
 export interface UserTypingEvent extends UserEvent {}
 export interface ValidTokens {
-  [key: string]: string;
+  [key: string]: JWTPayload;
 }
 export type ModifiedRequest = Request & { username?: string };
 export type UserRequest = Required<ModifiedRequest>;
