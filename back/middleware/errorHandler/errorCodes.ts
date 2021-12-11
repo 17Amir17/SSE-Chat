@@ -19,6 +19,7 @@ const errorCodes: ErrorCodes = {
   emptyMessage: { message: 'Recieved empty message', code: 400 },
   userNotFound: { message: 'User not found', code: 404 },
   incorrectPassword: { message: 'Incorrect Password', code: 403 },
+  userIsAlreadyOnline: { message: 'User is already logged in', code: 403 },
 };
 
 export default errorCodes;

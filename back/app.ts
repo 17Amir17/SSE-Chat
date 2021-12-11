@@ -1,8 +1,7 @@
 import express, { Request } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import registerRouter from './routers/registerRouter';
-import loginRouter from './routers/loginRouter';
+import authRouter from './routers/authRouter';
 import messageRouter from './routers/messageRouter';
 import errorHandler from './middleware/errorHandler/errorHandler';
 import userRequest from './middleware/messageHandler';
@@ -19,8 +18,7 @@ morgan.token('body', (req: Request, _res) => {
 });
 app.use(morgan(':method :url :body'));
 //Routers
-app.use('/register', registerRouter);
-app.use('/login', loginRouter);
+app.use('/auth', authRouter);
 app.use('/message', userRequest, messageRouter);
 //Error handler
 app.use(errorHandler);

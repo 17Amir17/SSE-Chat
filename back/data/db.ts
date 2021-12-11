@@ -26,6 +26,13 @@ export const addUser = (regParams: RegistrationParams) => {
   });
 };
 
+export const userOnline = (username: string) => {
+  const user = onlineUsers.find((user) => {
+    return user.username === username;
+  });
+  return !!user;
+};
+
 export const removeUser = (username: string) => {
   onlineUsers = onlineUsers.filter((user) => user.username !== username);
 };
