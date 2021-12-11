@@ -1,4 +1,5 @@
 import express, { Request } from 'express';
+import path from 'path';
 import cors from 'cors';
 import morgan from 'morgan';
 import loginRouter from './routers/loginRouter';
@@ -20,6 +21,11 @@ app.use(morgan(':method :url :body'));
 //Routers
 app.use('/login', loginRouter);
 app.use('/message', userRequest, messageRouter);
+//Static route
+app.use(express.static(path.join(__dirname, '../client/build/')));
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 //Error handler
 app.use(errorHandler);
 
