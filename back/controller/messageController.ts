@@ -3,8 +3,10 @@ import {
   ChatEvent,
   UserConnectionEvent,
   UserSendMessageEvent,
+  UserTypingEvent,
 } from '../services/types';
 import { broadcast, removeUserAndConnection } from './chatController';
+import { userIsTyping } from './typingController';
 
 export async function onConnect(event: UserConnectionEvent) {
   //Send hello
@@ -25,4 +27,8 @@ export async function onDisconnect(event: UserConnectionEvent) {
 
 export async function onUserSendMessage(event: UserSendMessageEvent) {
   broadcast({ username: event.username, message: event.message });
+}
+
+export async function onUserTyping(event: UserTypingEvent) {
+  userIsTyping(event.username);
 }

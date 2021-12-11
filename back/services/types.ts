@@ -33,14 +33,21 @@ export interface User {
   name: string;
 }
 
-export interface UserConnectionEvent {
+export interface TypingUser {
+  [key: string]: number;
+}
+
+export interface UserEvent {
   username: string;
 }
 
-export interface UserSendMessageEvent {
-  username: string;
+export interface UserConnectionEvent extends UserEvent {}
+
+export interface UserSendMessageEvent extends UserEvent {
   message: string;
 }
+
+export interface UserTypingEvent extends UserEvent {}
 
 export type ModifiedRequest = Request & { username?: string };
 
@@ -50,4 +57,5 @@ export enum ChatEvent {
   ChatMessage = 'CHAT_MESSAGE',
   UserJoined = 'USER_JOINED',
   UserLeft = 'USER_LEFT',
+  UserTyping = 'USER_TYPING',
 }

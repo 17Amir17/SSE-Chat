@@ -17,6 +17,8 @@ export function record(data: Data, eventType: ChatEvent) {
         time: data.time,
       });
       break;
+    case ChatEvent.UserTyping: // Dont record this event
+      break;
     default:
       chatHistory.push(data);
       break;

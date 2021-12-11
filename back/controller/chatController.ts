@@ -6,6 +6,7 @@ import {
   UserRequest,
   UserConnectionEvent,
   UserSendMessageEvent,
+  UserTypingEvent,
 } from '../services/types';
 import { getUsersArr, chatHistory, removeUser } from '../data/db';
 import errorCodes from '../middleware/errorHandler/errorCodes';
@@ -14,6 +15,7 @@ import {
   onConnect,
   onDisconnect,
   onUserSendMessage,
+  onUserTyping,
 } from './messageController';
 import { record } from './chatRecorder';
 
@@ -22,10 +24,12 @@ export const connections: ConnectionList = {};
 const onDisconnectEvent = new TypedEvent<UserConnectionEvent>();
 const onConnectEvent = new TypedEvent<UserConnectionEvent>();
 const onSendEvent = new TypedEvent<UserSendMessageEvent>();
+const onUserTypingEvent = new TypedEvent<UserTypingEvent>();
 //Sub to events
 onDisconnectEvent.on(onDisconnect);
 onConnectEvent.on(onConnect);
 onSendEvent.on(onUserSendMessage);
+onUserTypingEvent.on(onUserTyping);
 
 export function onSend(req: UserRequest, res: Response) {
   const { message } = req.body;
