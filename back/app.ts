@@ -22,9 +22,9 @@ app.use(morgan(':method :url :body'));
 app.use('/login', loginRouter);
 app.use('/message', userRequest, messageRouter);
 //Static route
-app.use(express.static(path.join(__dirname, '../client/build/')));
+app.use(express.static(path.join(__dirname, '../../client/build/')));
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  res.sendFile(path.join(__dirname, '../../client/build/index.html'));
 });
 //Error handler
 app.use(errorHandler);
