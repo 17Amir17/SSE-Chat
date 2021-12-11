@@ -8,7 +8,7 @@ import {
   UserSendMessageEvent,
   UserTypingEvent,
 } from '../services/types';
-import { getUsersArr, chatHistory, removeUser } from '../data/db';
+import { getUsersArr, chatHistory, removeOnlineUser } from '../data/db';
 import errorCodes from '../middleware/errorHandler/errorCodes';
 import TypedEvent from '../services/TypedEvent';
 import {
@@ -56,6 +56,7 @@ export async function stream(req: UserRequest, res: Response) {
 }
 
 export function getUsers(_req: UserRequest, res: Response) {
+  console.log(getUsersArr());
   res.json(getUsersArr());
 }
 
@@ -91,7 +92,7 @@ async function sendEvent(stream: Response, event: ChatEvent, data: Data) {
 export function removeUserAndConnection(username: string) {
   try {
     delete connections[username];
-    removeUser(username);
+    removeOnlineUser(username);
   } catch (error) {
     console.log(error);
   }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { BASE_URL } from './constants';
 
-const BASE_URL = 'http://localHost:8080';
 const CHAT_MESSAGE = 'CHAT_MESSAGE';
 const USER_JOINED = 'USER_JOINED';
 const USER_LEFT = 'USER_LEFT';
@@ -10,7 +10,6 @@ let source;
 
 export async function sendMessage(message, accessToken) {
   try {
-    console.log(accessToken);
     await axios.post(
       `${BASE_URL}/message/send`,
       {
@@ -29,7 +28,6 @@ export async function sendMessage(message, accessToken) {
 
 export async function sendTyping(accessToken) {
   try {
-    console.log(accessToken);
     await axios.post(`${BASE_URL}/message/typing`, null, {
       headers: {
         Authorization: accessToken,
@@ -42,11 +40,12 @@ export async function sendTyping(accessToken) {
 
 export async function getUsers(accessToken) {
   try {
-    const res = await axios.get(`${BASE_URL}/message/userList?user=admin`, {
+    const res = await axios.get(`${BASE_URL}/message/userList`, {
       headers: {
         Authorization: accessToken,
       },
     });
+    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -77,7 +76,6 @@ export async function getStream(
   onTyping = throwaway,
   onError = throwaway
 ) {
-  console.log(accessToken);
   if (source) {
     source.close();
   } //If stream is up close it
@@ -124,7 +122,6 @@ export async function getStream(
 }
 
 export function closeStream() {
-  console.log(source);
   if (source) {
     source.close();
     source = undefined;

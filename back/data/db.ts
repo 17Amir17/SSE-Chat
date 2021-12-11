@@ -33,7 +33,11 @@ export const userOnline = (username: string) => {
   return !!user;
 };
 
-export const removeUser = (username: string) => {
+export const addOnlineUser = (user: NonSensativeUser) => {
+  onlineUsers.push(user);
+};
+
+export const removeOnlineUser = (username: string) => {
   onlineUsers = onlineUsers.filter((user) => user.username !== username);
 };
 
@@ -46,5 +50,7 @@ export const getUser = (username: string): User => {
 };
 
 export const getUsersArr = () => {
-  return onlineUsers;
+  return onlineUsers.map((user) => ({
+    name: user.username,
+  }));
 };
