@@ -12,7 +12,7 @@ export async function login(username, password) {
     return {
       status: true,
       message: response.data.message,
-      username: response.data.name,
+      username: response.data.username,
       accessToken: response.data.accessToken,
       refreshToken: response.data.refreshToken,
     };

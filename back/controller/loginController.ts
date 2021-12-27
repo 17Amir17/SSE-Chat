@@ -24,5 +24,10 @@ export const login: RequestHandler = (req, res) => {
   // Generate tokens
   const accessToken = generateAccessToken(safeUser);
   const refreshToken = generateRefreshToken(safeUser);
-  res.json({ accessToken, refreshToken });
+  res.json({
+    message: `Hello ${user.username}`,
+    username: user.username,
+    accessToken,
+    refreshToken,
+  });
 };
