@@ -14,4 +14,6 @@ COPY --chown=node:node ./package-lock.json .
 COPY --chown=node:node ./package.json .
 RUN npm ci --only-production
 
+EXPOSE 8080
+
 CMD node ./build/index.js
